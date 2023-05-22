@@ -15,7 +15,7 @@ def get_dataloader(opt_test, mode):
         loader = DataLoader(dataset=get_test_data(opt_test['TEST_DIR'], {'patch_size': opt_test['TEST_PS']}),
                    batch_size=1, shuffle=False, num_workers=opt_test['NUM_WORKS'])
     elif mode == 'infer':
-        loader = DataLoader(dataset=get_infer_data('/content/URSCT-SESR/dataset/demo_data_Enh/test_data', {'patch_size': opt_test['TEST_PS']}),
+        loader = DataLoader(dataset=get_infer_data('/content/Underwater-image-enhancement_using_DKT/dataset/demo_data_Enh/test_data', {'patch_size': opt_test['TEST_PS']}),
                    batch_size=1, shuffle=False, num_workers=opt_test['NUM_WORKS'])
     return loader
 
@@ -46,6 +46,15 @@ def main(test_loader, opt_test, mode):
                                          os.path.join(result_dir, str(i) + '.png'))
 
 
+#if __name__ == '__main__':
+   # parser = argparse.ArgumentParser()
+    #parser.add_argument('--mode', type=str, default='infer', choices=['infer', 'eval'], help='random seed')
+    #mode = parser.parse_args().mode
+    #import sys
+    #if '-f' in sys.argv:
+     # sys.argv.remove('-f')
+      #sys.argv.remove('/root/.local/share/jupyter/runtime/kernel-b8edc924-2d03-48d8-8b18-3cd9afda376d.json')  
+      #mode = parser.parse_args().mode
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', type=str, default='infer', choices=['infer', 'eval'], help='random seed')
@@ -56,24 +65,28 @@ if __name__ == '__main__':
         sys.argv.remove('/root/.local/share/jupyter/runtime/kernel-d5f60b45-e76f-47f5-bc39-d582fb46404a.json')
     mode = parser.parse_args().mode
 
-    with open('/content/URSCT-SESR/configs/Enh_opt.yaml', 'r') as config:
+    with open('/content/Underwater-image-enhancement_using_DKT/configs/Enh_opt.yaml', 'r') as config:
         opt = yaml.safe_load(config)
         opt_test = opt['TEST']
     device = opt_test['DEVICE']
     model_detail_opt = opt['MODEL_DETAIL']
-    result_dir = os.path.join('/content/URSCT-SESR/exps', 'test_results')
+    result_dir = os.path.join('/content/Underwater-image-enhancement_using_DKT/exps', 'test_results')
     mkdir(result_dir)
+
+   
 
     model = URSCT(model_detail_opt).to(device)
     #path_chk_rest = get_last_path(os.path.join(opt_test['SAVE_DIR'], opt['TRAINING']['MODEL_NAME'], 'models'), '_bestSSIM.pth')
-    path_chk_rest= get_last_path('/content/URSCT-SESR/exps/quickstart_Enh/models','_bestSSIM.pth')
+    path_chk_rest= get_last_path('/content/Underwater-image-enhancement_using_DKT/exps/dkt_mod/models','_bestSSIM.pth')
     load_checkpoint(model, path_chk_rest)
     model.eval()
 
    # model_dir = os.path.join(opt_test['SAVE_DIR'], opt['TRAINING']['MODEL_NAME'], 'models')
     model_dir = opt_test['SAVE_DIR'] + '/' + opt['TRAINING']['MODEL_NAME'] + '/models'
-    files = os.listdir('/content/URSCT-SESR/exps/quickstart_Enh/models')
+    files = os.listdir('/content/Underwater-image-enhancement_using_DKT/exps/dkt_mod/models')
     filtered_files = [f for f in files if f.endswith('_bestSSIM.pth')]
+
+
 
     test_loader = get_dataloader(opt_test, mode)
     main(test_loader, opt_test, mode)
