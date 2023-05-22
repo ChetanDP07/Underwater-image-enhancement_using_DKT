@@ -39,8 +39,8 @@ def main(opt):
     model_dir = mkdir(os.path.join(train_opt['SAVE_DIR'], model_name, 'models'))
     result_dir = mkdir(os.path.join(train_opt['SAVE_DIR'], model_name, 'results'))
     log_dir = mkdir(os.path.join(train_opt['SAVE_DIR'], model_name, 'log'))
-    train_data_dir = '/content/URSCT-SESR/dataset/demo_data_Enh/train_data'
-    val_data_dir = '/content/URSCT-SESR/dataset/demo_data_Enh/val_data'
+    train_data_dir = '/content/drive/MyDrive/dataset/demo_data_Enh/train_data'
+    val_data_dir = '/content/drive/MyDrive/dataset/demo_data_Enh/val_data'
 
     ## Build Model
     print('================= Building Model =================')
@@ -247,6 +247,6 @@ def main(opt):
 if _name_ == '_main_':
     ## Load yaml configuration file
     print('================= Loading Configuration =================')
-    with open('/content/URSCT-SESR/configs/Enh_opt.yaml', 'r') as config:
+    with open('/content/Underwater-image-enhancement_using_DKT/configs/Enh_opt.yaml', 'r') as config:
         opt = yaml.safe_load(config)
     main(opt)
