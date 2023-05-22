@@ -10,6 +10,10 @@ from tqdm import tqdm
 from utils.image_utils import torchPSNR, torchSSIM
 import torchvision.transforms.functional as TF
 import os
+from dataset.data_loader_detail import *
+def get_infer_data(dir, img_options):
+    assert os.path.exists(dir)
+    return DataLoaderInf(dir, img_options)
 def get_dataloader(opt_test, mode):
     if mode == 'eval':
         loader = DataLoader(dataset=get_test_data(opt_test['TEST_DIR'], {'patch_size': opt_test['TEST_PS']}),
